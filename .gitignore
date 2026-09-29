@@ -1,0 +1,41 @@
+# Environment variables
+.env
+.env.local
+.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Data directories
+data/documents/*
+data/sessions/*
+data/vectorstore/*
+!data/documents/.gitkeep
+!data/sessions/.gitkeep
+!data/vectorstore/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+

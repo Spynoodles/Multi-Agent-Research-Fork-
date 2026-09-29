@@ -1,0 +1,163 @@
+/* Minimal styles to support existing layout without heavy customization.
+   This approximates a neutral, Streamlit-like look, with a cleaner sidebar. */
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.app-subtitle {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* Sidebar refinement */
+[data-testid="stSidebar"] {
+  background: #111827 !important; /* deep neutral */
+  border-right: 1px solid #1f2933;
+}
+
+[data-testid="stSidebar"] * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] strong,
+[data-testid="stSidebar"] b {
+  color: #e5e7eb !important;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stMarkdown {
+  color: #d1d5db !important;
+}
+
+/* Navigation radio group: make it feel like simple vertical tabs */
+[data-testid="stSidebar"] [role="radiogroup"] > div {
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] label {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* De-emphasize the default radio icon */
+[data-testid="stSidebar"] [role="radiogroup"] input[type="radio"] {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] input[type="radio"]:checked {
+  opacity: 1;
+}
+
+/* Subtle highlight on the active option via font weight/color handled by Streamlit */
+
+/* System status metric card */
+[data-testid="stSidebar"] [data-testid="stMetric"] {
+  background: #111827;
+  border-radius: 0.75rem;
+  border: 1px solid #1f2933;
+}
+
+/* Divider lines from inline HTML */
+[data-testid="stSidebar"] hr,
+[data-testid="stSidebar"] div[style*="border-bottom: 1px solid"] {
+  border-color: #1f2933 !important;
+}
+
+[data-testid="stSidebar"] .stCaption,
+[data-testid="stSidebar"] .stMarkdown small {
+  color: #9ca3af !important;
+}
+
+/* Recent sessions list */
+[data-testid="stSidebar"] .session-item {
+  margin-bottom: 0.5rem;
+}
+
+/* Agent cards in research flow */
+.agent-card {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 80px;
+}
+
+.agent-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: inherit;
+}
+
+.agent-status {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  opacity: 0.8;
+}
+
+.agent-msg {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  margin-top: 0.25rem;
+}
+
+.agent-pending {
+  background-color: #f9fafb;
+  color: #4b5563;
+  border-left: 4px solid #9ca3af;
+}
+
+.agent-active {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-left: 4px solid #3b82f6;
+  animation: pulse-active 2s infinite;
+}
+
+.agent-completed {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-left: 4px solid #10b981;
+}
+
+.agent-error {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-left: 4px solid #ef4444;
+}
+
+@keyframes pulse-active {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
