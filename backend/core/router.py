@@ -38,7 +38,7 @@ class Router:
         Initialize the Router.
 
         Args:
-            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3-flash-preview)
+            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3.5-flash-lite)
             temperature: LLM temperature
             api_key: Gemini API key (if not provided, uses GEMINI_API_KEY env var)
         """
@@ -55,11 +55,11 @@ class Router:
         if env_model_norm.startswith("gpt-") or ("gemini" not in env_model_norm):
             env_model = ""  # ignore harness sentinel / non-Gemini values
 
-        self.model_name = model_name or env_model or "gemini-3-flash-preview"
+        self.model_name = model_name or env_model or "gemini-3.5-flash-lite"
 
         _m = (self.model_name or "").lower()
         if _m.startswith("gpt-") or ("gemini" not in _m):
-            self.model_name = "gemini-3-flash-preview"
+            self.model_name = "gemini-3.5-flash-lite"
 
         self.temperature = temperature
         self.llm: Any = create_llm(

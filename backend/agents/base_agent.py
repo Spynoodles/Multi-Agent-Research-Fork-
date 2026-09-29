@@ -44,7 +44,7 @@ class BaseAgent(ABC):
         Args:
             role: The role/name of this agent
             system_prompt: System prompt defining the agent's behavior
-            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3-flash-preview)
+            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3.5-flash-lite)
             temperature: Temperature for LLM responses
             api_key: Gemini API key (if not provided, uses GEMINI_API_KEY env var)
         """
@@ -58,11 +58,11 @@ class BaseAgent(ABC):
         # Initialize LLM client via LangChain factory
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         self.model_name = (
-            model_name or os.getenv("GEMINI_MODEL") or "gemini-3-flash-preview"
+            model_name or os.getenv("GEMINI_MODEL") or "gemini-3.5-flash-lite"
         )
         _m = (self.model_name or "").lower()
         if _m.startswith("gpt-") or ("gemini" not in _m):
-            self.model_name = "gemini-3-flash-preview"
+            self.model_name = "gemini-3.5-flash-lite"
         self.temperature = temperature
         self.llm: Any = create_llm(
             model_name=self.model_name,

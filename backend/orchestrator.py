@@ -44,7 +44,7 @@ class ResearchOrchestrator:
         Args:
             rag_system: RAG system for document retrieval
             web_search_tool: Web search tool
-            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3-flash-preview)
+            model_name: Gemini model name (if None, uses GEMINI_MODEL env var or defaults to gemini-3.5-flash-lite)
             temperature: LLM temperature
             api_key: Gemini API key (if not provided, uses GEMINI_API_KEY env var)
         """

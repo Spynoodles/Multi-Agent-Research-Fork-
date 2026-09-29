@@ -5,7 +5,6 @@ API key from the `GEMINI_API_KEY` environment variable.
 """
 
 import os
-import sys
 from typing import Any, Dict, Optional
 
 # Import at top level to avoid E402
@@ -20,7 +19,8 @@ def create_llm(
     api_key: Optional[str] = None,
 ) -> object:
     gemini_key = api_key or os.getenv("GEMINI_API_KEY")
-    gemini_model = model_name or os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
+    gemini_model = model_name or os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+    fallback_model = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash-lite")
 
     # Clean approach: prefer direct use of google.genai when a GEMINI API key
     # is provided to avoid any LangChain/provider code paths that may default
@@ -47,9 +47,30 @@ def create_llm(
                         else:
                             prompt += f"{str(msg)}\n"
                     
-                    response = self.client.models.generate_content(
-                        model=self.model, contents=prompt
-                    )
+                    models_to_try = [self.model]
+                    if fallback_model and fallback_model not in models_to_try:
+                        models_to_try.append(fallback_model)
+
+                    last_error = None
+                    for model in models_to_try:
+                        try:
+                            response = self.client.models.generate_content(
+                                model=model, contents=prompt
+                            )
+                            break
+                        except Exception as error:
+                            last_error = error
+                            status_code = getattr(error, "status_code", None)
+                            error_text = str(error).upper()
+                            retryable = status_code in {429, 500, 502, 503, 504}
+                            retryable = retryable or any(
+                                marker in error_text
+                                for marker in ("429", "500", "502", "503", "504", "UNAVAILABLE")
+                            )
+                            if not retryable:
+                                raise
+                    else:
+                        raise last_error
                     
                     # Mock a LangChain-like response object with a .content attribute
                     class _Response:
